@@ -14,13 +14,18 @@ struct Resume {
     string workExperience;
     string skills;
     string projects;
+    string certifications;
+    string languages;
+    string interests;
+    string references;
 };
 
 void printResume(const Resume &resume) {
-    // Output formatted resume
+    // Output formatted resume with added sections
     cout << "\n\n-----------------------------------------------------------\n";
     cout << "                       RESUME\n";
     cout << "-----------------------------------------------------------\n";
+    
     cout << "Name: " << resume.name << endl;
     cout << "Contact: " << resume.contact << endl;
     cout << "Email: " << resume.email << endl;
@@ -46,6 +51,27 @@ void printResume(const Resume &resume) {
     cout << "PROJECTS\n";
     cout << "-----------------------------------------------------------\n";
     cout << resume.projects << endl;
+
+    // Added new sections
+    cout << "\n-----------------------------------------------------------\n";
+    cout << "CERTIFICATIONS\n";
+    cout << "-----------------------------------------------------------\n";
+    cout << resume.certifications << endl;
+
+    cout << "\n-----------------------------------------------------------\n";
+    cout << "LANGUAGES\n";
+    cout << "-----------------------------------------------------------\n";
+    cout << resume.languages << endl;
+
+    cout << "\n-----------------------------------------------------------\n";
+    cout << "INTERESTS\n";
+    cout << "-----------------------------------------------------------\n";
+    cout << resume.interests << endl;
+
+    cout << "\n-----------------------------------------------------------\n";
+    cout << "REFERENCES\n";
+    cout << "-----------------------------------------------------------\n";
+    cout << resume.references << endl;
 
     cout << "-----------------------------------------------------------\n";
 }
@@ -80,6 +106,19 @@ int main() {
 
     cout << "Enter your Projects details: ";
     getline(cin, resume.projects);
+
+    // New sections
+    cout << "Enter your Certifications: ";
+    getline(cin, resume.certifications);
+
+    cout << "Enter the Languages you know: ";
+    getline(cin, resume.languages);
+
+    cout << "Enter your Interests: ";
+    getline(cin, resume.interests);
+
+    cout << "Enter your References (if any): ";
+    getline(cin, resume.references);
 
     // Output formatted resume
     printResume(resume);

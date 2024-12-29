@@ -52,3 +52,295 @@ To generate a PDF output effectively from a C++ program (like the resume generat
    - **Fonts**: Embedding fonts increases file size, so you may opt for standard fonts or configure the library to embed fonts selectively.
    
 By keeping these points in mind, you can ensure the PDF output is well-structured, visually appealing, and functional for generating resumes or other documents.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+To generate a PDF from the C++ program, we can use a third-party library like **libharu**, which is a free, open-source library for creating PDFs in C++. Since C++ doesn't have built-in support for generating PDFs, we'll need to use external libraries like **libharu** or **PoDoFo** to accomplish this.
+
+Here’s a basic implementation using **libharu** to output the resume in PDF format. If you haven’t already, you will need to install the libharu library. You can download it from [libharu's official website](http://libharu.org/) and follow installation instructions.
+
+### Steps to use libharu:
+1. **Install libharu** (ensure you have the necessary build tools, like `make` and `g++`).
+2. Link the library with your C++ project during compilation.
+
+Here’s the updated C++ code using **libharu** to generate the resume as a PDF.
+
+### Install libharu
+You can install libharu on Ubuntu by running:
+```bash
+sudo apt-get install libharu-dev
+```
+
+### C++ Code to Create Resume in PDF:
+```cpp
+#include <iostream>
+#include <string>
+#include <hpdf.h>  // Include the libharu header
+
+using namespace std;
+
+struct Resume {
+    string name;
+    string contact;
+    string email;
+    string linkedin;
+    string github;
+    string education;
+    string workExperience;
+    string skills;
+    string projects;
+    string certifications;
+    string languages;
+    string interests;
+    string references;
+};
+
+// Function to print resume to PDF
+void printResumeToPDF(const Resume &resume, const char* filename) {
+    HPDF_Doc pdf = HPDF_New(NULL, NULL); // Create a new PDF document
+
+    if (!pdf) {
+        cout << "Error: Unable to create PDF document." << endl;
+        return;
+    }
+
+    HPDF_Page page = HPDF_AddPage(pdf);  // Create a new page
+    HPDF_SetFontAndSize(page, HPDF_GetFont(pdf, "Helvetica", NULL), 12);  // Set font and size
+
+    float x = 50; // X coordinate for the text
+    float y = 750; // Y coordinate for the text
+    float lineHeight = 20; // Space between lines
+
+    // Title
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, "Resume");
+    HPDF_Page_EndText(page);
+
+    y -= lineHeight;
+
+    // Personal Info
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, ("Name: " + resume.name).c_str());
+    HPDF_Page_EndText(page);
+
+    y -= lineHeight;
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, ("Contact: " + resume.contact).c_str());
+    HPDF_Page_EndText(page);
+
+    y -= lineHeight;
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, ("Email: " + resume.email).c_str());
+    HPDF_Page_EndText(page);
+
+    y -= lineHeight;
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, ("LinkedIn: " + resume.linkedin).c_str());
+    HPDF_Page_EndText(page);
+
+    y -= lineHeight;
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, ("GitHub: " + resume.github).c_str());
+    HPDF_Page_EndText(page);
+
+    y -= lineHeight * 2;
+
+    // Sections: Education, Work Experience, etc.
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, "EDUCATION");
+    HPDF_Page_EndText(page);
+    y -= lineHeight;
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, resume.education.c_str());
+    HPDF_Page_EndText(page);
+
+    y -= lineHeight * 2;
+
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, "WORK EXPERIENCE");
+    HPDF_Page_EndText(page);
+    y -= lineHeight;
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, resume.workExperience.c_str());
+    HPDF_Page_EndText(page);
+
+    y -= lineHeight * 2;
+
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, "SKILLS");
+    HPDF_Page_EndText(page);
+    y -= lineHeight;
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, resume.skills.c_str());
+    HPDF_Page_EndText(page);
+
+    y -= lineHeight * 2;
+
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, "PROJECTS");
+    HPDF_Page_EndText(page);
+    y -= lineHeight;
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, resume.projects.c_str());
+    HPDF_Page_EndText(page);
+
+    y -= lineHeight * 2;
+
+    // Additional sections: Certifications, Languages, Interests, References
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, "CERTIFICATIONS");
+    HPDF_Page_EndText(page);
+    y -= lineHeight;
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, resume.certifications.c_str());
+    HPDF_Page_EndText(page);
+
+    y -= lineHeight * 2;
+
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, "LANGUAGES");
+    HPDF_Page_EndText(page);
+    y -= lineHeight;
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, resume.languages.c_str());
+    HPDF_Page_EndText(page);
+
+    y -= lineHeight * 2;
+
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, "INTERESTS");
+    HPDF_Page_EndText(page);
+    y -= lineHeight;
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, resume.interests.c_str());
+    HPDF_Page_EndText(page);
+
+    y -= lineHeight * 2;
+
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, "REFERENCES");
+    HPDF_Page_EndText(page);
+    y -= lineHeight;
+    HPDF_Page_BeginText(page);
+    HPDF_Page_TextOut(page, x, y, resume.references.c_str());
+    HPDF_Page_EndText(page);
+
+    // Save the PDF to a file
+    HPDF_SaveToFile(pdf, filename);
+    HPDF_Free(pdf);  // Clean up
+}
+
+int main() {
+    Resume resume;
+
+    // Collect user input for the resume
+    cout << "Enter your Name: ";
+    getline(cin, resume.name);
+
+    cout << "Enter your Contact (Phone number): ";
+    getline(cin, resume.contact);
+
+    cout << "Enter your Email: ";
+    getline(cin, resume.email);
+
+    cout << "Enter your LinkedIn profile URL: ";
+    getline(cin, resume.linkedin);
+
+    cout << "Enter your GitHub profile URL: ";
+    getline(cin, resume.github);
+
+    cout << "Enter your Education details: ";
+    getline(cin, resume.education);
+
+    cout << "Enter your Work Experience details: ";
+    getline(cin, resume.workExperience);
+
+    cout << "Enter your Skills: ";
+    getline(cin, resume.skills);
+
+    cout << "Enter your Projects details: ";
+    getline(cin, resume.projects);
+
+    // New sections
+    cout << "Enter your Certifications: ";
+    getline(cin, resume.certifications);
+
+    cout << "Enter the Languages you know: ";
+    getline(cin, resume.languages);
+
+    cout << "Enter your Interests: ";
+    getline(cin, resume.interests);
+
+    cout << "Enter your References (if any): ";
+    getline(cin, resume.references);
+
+    // Generate the resume as PDF
+    printResumeToPDF(resume, "Resume.pdf");
+
+    cout << "Resume has been saved as 'Resume.pdf'" << endl;
+
+    return 0;
+}
+```
+
+### Key Changes and Features:
+1. **LibHaru Integration**: The code now uses **libharu** to create a PDF document.
+2. **Formatted Resume**: The resume is output to the PDF with various sections like `EDUCATION`, `WORK EXPERIENCE`, `SKILLS`, etc.
+3. **PDF Output**: The generated resume is saved as a PDF file named `Resume.pdf`.
+
+### Compilation Command:
+If you have installed **libharu**, you can compile the program like this:
+
+```bash
+g++ -o resume resume.cpp -lhpdf
+```
+
+Then run the compiled program:
+
+```bash
+./resume
+```
+
+This will generate a PDF file (`Resume.pdf`) in the same directory.
